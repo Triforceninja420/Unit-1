@@ -1,61 +1,78 @@
-# BUILD.md — Unit-1 handoff
+# BUILD.md — build a C-3PO-class frame
 
-Everything below is buildable from this folder. Design owner: Craig.
-Status: Path 1 locked 2026-09-15.
+Design owner: Craig. Public coupon. Status: Frame locked 2026-09-15.
 
-## What you're building first
+You do not need a doll, a GPU, or a cloud account. You need tube, servos, a pack, and an afternoon of wiring.
 
-Phase 0 coupon. Not a woman on the bench. A loop you will later hide in a waist.
+## 0. Read first
 
-## Build — Phase 0
+- `FRAME.md` for numbers that are frozen
+- `MIN_PARTS.md` for the cart
+- `MEASUREMENT_CARD.md` so you know what you must write down
 
-1. Flash the Jetson. Disk encryption on. WAN off.
-2. Install Faster-Whisper (or WhisperTRT), llama.cpp or Ollama, Piper or Kokoro.
-3. Put a 3B–9B Q4 instruct model on disk. Load `CONSTITUTION.md`.
-4. Measure greeting and normal-reply latency. WAN stays out.
-5. Wire 12 V → fuse → FET → heater pad. NTC on the face of the pad.
-6. E-stop in series with FET gate power. Prove it with a meter.
-7. Hardware mute on the mic. Prove STT dies.
-8. FSR on a scale. Log N.
-9. Fill `MEASUREMENT_CARD.md`.
+If you skip the card, you built a sculpture.
 
-If peak reply is >3 s on the Nano, drop model size or move the LLM to a LAN GPU. Do not “fix” it by turning the cloud on.
+## 1. Cut the armature
 
-## Build — Phase 1 cartridge
+1. Pick 160–168 cm. Mark hip, knee, ankle on the tube before you drill.
+2. Hip width ~ the protocol-droid stance you can stand inside without the feet kicking each other. Start ~180–220 mm center to center.
+3. Joint blocks: printed or plate. One bolt axis per joint. No slop you can see.
+4. Dry-assemble legs + pelvis. Stand it on the bench with the joints locked (bolts tight, no servos yet). If it will not stand as a dummy, servos will not save it.
+5. Weigh the dummy. Budget room for servos + pack so you finish at 8–14 kg.
 
-1. Buy two vaginal and two anal platinum sleeves before any pump.
-2. Wash / invert / rod-dry drill. Time it. Must be <15 min.
-3. If you add a pump: it lives in the slide-out bay. 12 V. 35 N cap on clamp force. 42 °C fuse on the sleeve heater.
-4. Water-based lube only. No reservoir you cannot boil.
-5. Leak-down test on a towel for 30 min. Dry skeleton side must stay dry.
+## 2. Mount servos
 
-## Build — Phase 2 chassis
+1. Hip pitch L/R, knee L/R, ankle pitch L/R first. Six servos is a legal first walker.
+2. Add hip roll L/R when the six-servo shuffle only tips sideways.
+3. Arms can be dummy mass until the legs work.
+4. Horn screws + thread locker. A loose horn is a fall.
+5. Keep wiring off the floor path. Strain-relief at every joint.
 
-1. Order the body. Platinum. EVO. Gel. Stand. Spare sleeves. Adult sculpt.
-2. Do not cast a full body this quarter.
-3. Open a mid-back / nape service path. Spine loom. Seal the pelvic well so wash water never sits on steel.
-4. Bond heater pads behind chest and inner thighs with the NTCs skin-side. 41 °C cap still wins.
-5. Place FSRs where hands actually land. Eight is enough.
-6. Nape E-stop + mute where you can find them in the dark.
-7. Head: robotic for gaze/speech, or static if you spent the money on the GPU. Jaw is not an oral toy.
-8. Stand or supine storage. Neutral joints. Support the head.
+## 3. Power and stop
 
-## Session machine
+1. Pack on the pelvis or backpack plate. Low COM helps.
+2. Fuse the servo rail. BEC or a proper UBEC if you run 2S/3S.
+3. E-stop in series with servo-enable / rail switch. Prove it with a meter.
+4. Do not power a 32 kg cover from this rail. This rail is the bare frame.
 
-- Idle: heater/motor current 0 except memory trickle.
-- Preheat: wall 12 V, 20–40 min, 36–38 °C zones, abort at 41 °C.
-- Attend: voice loop on, motors off unless invited.
-- Intimate: cartridge may run. Safeword or E-stop drops PWM + heat.
-- Cleanup: power down heat/motors, pull sleeves, wash, dry, backup memory.
-- Fault: brownout, NTC open, leak sense → same as E-stop.
+## 4. Gait player
 
-Never run heaters unattended. Never run heaters overnight in bedding.
+1. MCU: Pico, XIAO RP2040, or Mega. Servo library + a table of pulse widths vs time.
+2. Find hold poses: stand, left-shift, right-shift, left-lift, left-plant.
+3. Play them slow. Then shorten the delays until it steps instead of posing.
+4. Open-loop only. If it needs a boom, use the boom and write boom-on.
 
-## Success criteria (full Path 1)
+Example pose table (fill with *your* microseconds):
 
-- 37 °C class on chest and inner thigh, no hot spots, 41 °C never logged on skin.
-- Sleeves out, washed, dry in <15 min.
-- Local reply <3 s.
-- Yesterday’s preference recalled, WAN unplugged.
-- Nape E-stop kills heat and motion.
-- After one week: no pelvic odor, no rust, no torn fingertip.
+```
+stand        hipL hipR kneeL kneeR ankL ankR
+shift_L
+lift_R
+plant_R
+shift_R
+lift_L
+plant_L
+```
+
+Loop that. That is the droid.
+
+## 5. Test order
+
+1. Tether or boom for the first power-up.
+2. Stand 60 s.
+3. One step.
+4. Ten steps.
+5. E-stop mid-step once so you trust it.
+6. Fill the Frame table.
+
+## 6. Optional costume
+
+Paint, printed chest, bucket head, cape. Hang them only after step 5.
+Soft / companion covers are Path 1. They stay off the walk claim.
+
+## Do not
+
+- Do not start with a full silicone body and try to motorize the factory EVO joints.
+- Do not call boom-on a walk.
+- Do not skip the fuse or the E-stop.
+- Do not paste DittoBot coil parts onto a hip.
