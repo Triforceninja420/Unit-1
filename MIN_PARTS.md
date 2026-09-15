@@ -1,41 +1,50 @@
-# MIN_PARTS.md — Phase 0 kit
+# MIN_PARTS.md — one bare C-3PO
 
-Project started 2026-09-15. Design owned by Craig.
-Human-proximate companion chassis. Not DittoBot.
+Public frame kit. Design owned by Craig.
+Not DittoBot. Not a soft-body order.
 
-**This list is only for the bench coupon.**
-Not a body. Not a lattice. Not Phase 0 of the 20 mm face.
-
-Fill `MEASUREMENT_CARD.md` with whatever this kit measures. No companion claim until that card is filled.
+Fill the Frame table in `MEASUREMENT_CARD.md`. No walk claim until that table has numbers.
 
 ## Buy or borrow
 
 | # | Item | Spec | Why | Skip / substitute |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | Jetson | Orin Nano Super 8 GB + official carrier / NVMe | Local STT+LLM+TTS | A LAN box with a used 3090/4090 is a legal substitute and better for V1.2 prose |
-| 2 | 12 V brick | Mean Well-class, GFCI upstream, ≥150 W if heaters come later | Heat rail + tools | Laptop PD only runs the brain, not the pads |
-| 3 | Heater coupon | 12 V graphene film or silicone pad + NTC 10k | 41 °C cap is a measured number | Hair-dryer is not a coupon |
-| 4 | MOSFET + fuse | Logic-level N-FET, 5–10 A fuse on the pad | E-stop has something to cut | Relay is fine for Phase 0 |
-| 5 | E-stop | NC momentary or latching mushroom on a tether | Human path | Software button is not E-stop |
-| 6 | Mic mute | Physical switch on the mic V+ or line | Privacy | Mute in PulseAudio is not the lock |
-| 7 | Mic + speaker | USB mic array + 5–10 W speaker | Voice loop | Headset is fine on the bench |
-| 8 | FSR | Interlink 402 or 406 + 10 k divider | Newton log | Kitchen scale under the pad works for the first card |
-| 9 | Storage | 256 GB+ NVMe | Models + encrypted memory | SD card is a prototype only |
+| 1 | Tube / plate | 20–25 mm aluminum tube or 2–3 mm plate for pelvis and feet | The robot | Steel is heavier; print-only legs will flex. Flag it |
+| 2 | Joint hardware | M3/M4 bolts, locknuts, horn screws | Axes | Nyloc or thread locker |
+| 3 | Servos (legs) | 6× hobby digital, metal gear. Start in the 20–40 kg-cm class and write the real model | Hip/knee/ankle pitch | Stronger for hip if the dummy is already 10 kg |
+| 4 | Servos (optional) | 2× hip roll, 2× shoulder | Weight shift + arm swing | Add after the 6-servo shuffle exists |
+| 5 | MCU | Pico / XIAO RP2040 / Mega | Gait table | Do not put a Jetson on this order unless you already own one |
+| 6 | Pack | 2S–3S LiPo or 12 V LiFePO4 + UBEC to servo voltage | Walk rail | Bench PSU for first stand test |
+| 7 | Fuse + E-stop | Rail fuse + mushroom or tether switch that kills enable | Human path | Software “stop” is not E-stop |
+| 8 | Servo wire / extenders | 22–26 AWG, strain relief | Hips eat cables | |
+| 9 | Feet | Wide plates. Rubber pad | C-3PO without feet is a coat rack | |
+| 10 | Scale + tape | Luggage scale, 3 m tape | Mass and height on the card | |
+
+## Already in the folder (do not repurchase as magic)
+
+- Envelope and tests: `FRAME.md`
+- Steps: `BUILD.md`
+- Blank card: `MEASUREMENT_CARD.md`
+
+## Borrow if cash is low
+
+- Drill press or a square + hand drill
+- Bench supply for the first stand
+- A broom-handle boom and a friend for step one
+- Makerspace night for tube cuts
 
 ## Do not put on this order
 
-- DittoBot Phase 0 parts: IRLZ44N cap-dump, 220 µF / 30–36 V, Ø5 EPM, 1.8 mm pin, Pico netlist
-- 25 mm cell parts: Ø6 stack, AWG 36 latch coil, DRV8871 as a body actuator
-- TPE full body as the keeper chassis
-- Childlike sculpt, voice, or clothing
-- Any walk / balance platform
-- Cloud personality subscription as the primary brain
+- DittoBot Phase 0: IRLZ44N cap-dump, Ø5 EPM, 1.8 mm pin
+- 25 mm cell: Ø6 stack, AWG 36 latch coil, DRV8871 as a hip
+- Full TPE/silicone body as the *first* structure
+- Walking-hub motors rated for 35 kg “just in case”
+- Cloud personality sub
 
 ## Bench order
 
-1. Flash Jetson. Models on disk. Airplane mode.
-2. VAD → STT → small LLM → TTS. Fill latency boxes.
-3. Wire heater + NTC + FET + E-stop. 30 min soak.
-4. Log FSR.
-5. Paste numbers into `MEASUREMENT_CARD.md`.
-6. Only then order a body.
+1. Dummy armature stands with bolts tight, no servos.
+2. Six pitch servos + fuse + E-stop.
+3. Stand pose 60 s.
+4. Script one step, then ten.
+5. Write mass, servo models, stall A, boom yes/no on the card.
