@@ -1,55 +1,54 @@
-# Unit-1 / Companion Chassis
-Human-proximate companion robot for Craig. Design owned by Craig. Started 2026-09-15.
+# Unit-1 Frame — C-3PO-class biped
 
-**This repository is the body + brain stack.**
-It is **not** DittoBot / Voxel Box (25 mm cell, Ø8.2 pocket, Ø6 stack, DRV8871, Phase 0 20 mm face, 4× Ø5 EPM, 1.8 mm pin, 12 V / 1.25 A / ≥40 N shear).
-Do not paste DittoBot coil / hold / cap-dump numbers into these files.
-Do not paste Unit-1 heater / sleeve / LLM numbers into DittoBot.
+A rigid metal person you can actually build.
 
-DittoBot lives at `Triforceninja420/DittoBot`. Two stacks. Unmixed.
+Hobby servos. Open-loop gait. Wobbly protocol-droid walk on a flat floor.
+Design owned by Craig. Started 2026-09-15.
+
+If you want a C-3PO, this is the repo. Cut tube, mount servos, play a step sequence, take ten ugly steps. That is the whole product on day one.
+
+**This is not DittoBot.** DittoBot is a 25 mm voxel latch coupon (`Triforceninja420/DittoBot`). Do not paste those coil / EPM / 40 N numbers here.
+
+**The gold shell is optional and later.** Paint, cape, and any soft cover hang on a frame that already stands. A dressed or companion body is a different stack. It does not walk on this lock.
 
 ---
 
-## Status — 2026-09-15  Path 1 locked as the buy+integrate target
+## Status — 2026-09-15  Frame locked as the public build
 
-Factory "AI dolls" are a silicone chassis plus a cloud chatbot. That cloud line is retired as the brain.
-Geometry pick for this robot is **Path 1**: buy the chassis, own the brain.
-
-| Item | First pass (do not build as the product) | Path 1 (build target) |
+| Item | Do not build as the first robot | Build this |
 | :--- | :--- | :--- |
-| Chassis | Garage-cast TPE body | **Bought platinum-cure silicone, EVO stainless skeleton** |
-| Brain | Vendor app + cloud LLM | **Local Jetson / LAN box, default airplane mode** |
-| Heat | Mains loops in the pelvis | **5–12 V graphene / silicone pads, fused, timed** |
-| Sex hardware | Fixed tunnels + "forever lube" | **Removable platinum sleeves + optional pelvic cartridge** |
-| Face | Marketing 17-motor oral toy | **Animatronic head for speech / gaze only** |
-| Locomotion | Walking humanoid | **None. Poseable. No walk claim.** |
-| Skin temp | "Body heat" brochure | **41 °C contact cap** (DittoBot companion gate) |
-| Human force | 40 N dock shear reused as squeeze | **35 N human-contact interrupt** |
+| Structure | Soft doll skeleton, no motors | **Aluminum tube / plate biped** |
+| Actuators | Mystery “humanoid kit” with no torque math | **Named hobby digital servos, listed on the card** |
+| Gait | Closed-loop AGI walk | **Open-loop script. C-3PO wobble is the bar** |
+| Brain | Cloud girlfriend app | **MCU gait player.** Jetson is optional and later |
+| Mass | 32 kg silicone on day one | **8–14 kg bare frame.** Flag >16 kg |
+| Claim | “She walks” | **Ten steps, flat floor, or write boom-on** |
 
-Nothing on this stack is a companion robot until `MEASUREMENT_CARD.md` has heat, sense, voice-loop, and E-stop numbers. Blank card = bench coupon, not a person-shaped product. See `LOCKS.md`.
+Nothing is a walking robot until the Frame table in `MEASUREMENT_CARD.md` is filled. Blank card = parts on a bench.
 
 ---
 
-## What you're building
+## What you are building
 
-A warm, private, talkative, adult-only chassis you can service.
+1. A 160–168 cm rigid biped armature.
+2. Hip / knee / ankle pitch first. Hip roll when you need the weight shift.
+3. A fused pack, an E-stop that kills servo enable, a gait script on an RP2040 / Pico / Mega.
+4. Ten steps. Then a coat of paint if you want the protocol-droid look.
 
-- Layer A — bought silicone body + EVO skeleton + stand.
-- Layer B — heaters, FSRs, removable sleeves, optional motor cartridge.
-- Layer C — local STT → LLM → TTS → visemes, nape E-stop, hardware mic mute.
+Optional tracks (not required for C-3PO):
 
-Phase 0 is the nightstand brain + one heater coupon + one FSR. It is **not** the full body. See `PHASE0.md`.
+- `PHASE0.md` — local voice box on a nightstand.
+- Path 1 in `DESIGN.md` — bought soft shell hung on a finished frame. Adult-only. Poseable. **Does not walk.**
 
 ---
 
 ## Files
 
-- `DESIGN.md` — architecture and version ladder
-- `PHASE0.md` — locked bench coupon (brain + heat + E-stop)
-- `BUILD.md` — handoff / build order
-- `MIN_PARTS.md` — Phase 0 buy list
-- `text` — BOM and netlist (Path 1)
-- `MEASUREMENT_CARD.md` — blank until measured
-- `LOCKS.md` — paper locks, two stacks unmixed
-- `CONSTITUTION.md` — personality / limits file the brain loads
-
+- `FRAME.md` — locked envelope and success tests
+- `BUILD.md` — cut → wire → script → step
+- `MIN_PARTS.md` — buy list for one bare droid
+- `MEASUREMENT_CARD.md` — fill this or do not say it walks
+- `DESIGN.md` — version ladder
+- `LOCKS.md` — what must not get mixed
+- `text` / `text.txt` — BOM + netlist
+- `PHASE0.md` / `CONSTITUTION.md` — optional brain / later hang
