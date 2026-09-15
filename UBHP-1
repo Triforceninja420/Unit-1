@@ -76,3 +76,35 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 | **Thermal & Cabling** | Graphite PGS Spreaders, Dual Blowers, Braided Shielded Bus Harnessing | $300 |
 | **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$12,209** |
 
+The structural mass budget and baseline link lengths can be locked to freeze the kinematic tree for the preview controller.
+These values assume a nominal 165 cm overall stature with the lower-body proportions tuned to support the bent-knee, wide-stance Linear Inverted Pendulum Model (LIPM).
+1. Frozen Link Lengths & Kinematic Offsets
+All dimensions define joint axis-to-axis centerlines:
+ * Pelvic Width (Hip Pitch-to-Pitch Centerline): 240\text{ mm} (Wide stance base to facilitate the lateral pendulum sway).
+ * Hip Pitch-to-Roll Offset (d_{\text{hip}}): 48\text{ mm} (Orthogonal intersecting offset).
+ * Femur Length (L_{\text{thigh}}): 360\text{ mm} (Hip roll pivot to knee harmonic axis).
+ * Shank Length (L_{\text{shank}}): 380\text{ mm} (Knee harmonic axis to ankle gimbal pivot center).
+ * Ankle Gimbal-to-Sole Offset (h_{\text{sole}}): 65\text{ mm} (Vertical distance from ankle pitch/roll cross-pin to bottom of compliant foot tread).
+ * Foot Sole Envelope: 220\text{ mm} total length (75\text{ mm} posterior to ankle center, 145\text{ mm} anterior) \times 110\text{ mm} width.
+2. Bare-Frame Mass & Center of Gravity (CoG) Budget
+The masses represent the fully populated sub-assemblies (skeleton, internal drives, wiring, and structural covers, excluding cast outer silicone):
+| Segment / Assembly | Bare-Frame Mass | Local Center of Gravity (from proximal joint) | Segment Inertia Estimate (I_{xx}, I_{yy}, I_{zz}) |
+|---|---|---|---|
+| Pelvis Core Assembly | 4.20\text{ kg} | Centered 35\text{ mm} below spine pitch base | [0.024, 0.018, 0.028]\,\text{kg}\cdot\text{m}^2 |
+| Femur Assembly (x2) | 3.15\text{ kg} ea. | 145\text{ mm} distally along tube centerline | [0.038, 0.036, 0.007]\,\text{kg}\cdot\text{m}^2 |
+| Shank Assembly (x2) | 2.85\text{ kg} ea. | 130\text{ mm} distally (biased proximal by Bay 2/3 motors) | [0.031, 0.029, 0.005]\,\text{kg}\cdot\text{m}^2 |
+| Foot Plate Assembly (x2) | 0.95\text{ kg} ea. | 18\text{ mm} forward of pitch pin, 25\text{ mm} below pivot | [0.003, 0.006, 0.004]\,\text{kg}\cdot\text{m}^2 |
+| Upper Body Lumped Mass | 17.50\text{ kg} | Torso center (Orin, battery, spine, animatronics) | [0.320, 0.280, 0.190]\,\text{kg}\cdot\text{m}^2 |
+| Total Platform Mass (M) | 35.60\text{ kg} | Nominal standing CoG height: z_c \approx 540\text{ mm} | — |
+3. Frozen LIPM Constants for 10-Step Gait Execution
+With the link parameters set, the fundamental parameters for the 200 Hz preview loop normalize to:
+ * Nominal CoM Operating Height (z_c): 0.54\text{ m} (calculated at constant 22^\circ static knee flexion).
+ * Pendulum Time Constant:
+   
+ * Step Cycle Timing:
+   * Step Duration (T_{\text{step}}): 0.65\text{ s} per step (0.45\text{ s} single support, 0.20\text{ s} double support).
+   * Stride Length (S_x): 120\text{ mm} (short, stable shuffle).
+   * Step Width (S_y): 240\text{ mm} constant lateral stance.
+   * Lateral CoM Sway Amplitude: \pm 38\text{ mm} across the pelvic roll axis to keep the ZMP safely within the 110\text{ mm} foot width during single-leg support.
+
+
