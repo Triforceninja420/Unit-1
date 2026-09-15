@@ -1,0 +1,78 @@
+Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1)
+Master Engineering Specification & System Architecture
+Document Revision: 3.0.0 (Hardened & Unit-1 Wrapped)
+System Class: Fully Autonomous Edge-AI Bipedal Platform
+Kinematic Gait Model: Stiff-Legged Waddling / Shuffle Kinematics (ZMP Stabilized)
+Status: Validated System Specification
+1. Master System Overview & Unit-1 Design Philosophy
+The Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1) integrates dynamic, zero-cloud edge intelligence with a hardened, low-backlash humanoid chassis. Designed specifically to execute stable, characteristic waddling and shuffling bipedal gaits while retaining tactile compliance and realistic expressive animatronics, the platform resolves critical mechanical and electrical failure modes identified during stress testing.
+Key architectural upgrades include zero-power electromagnetic holding brakes at high-stress joints, active dynamic bus clamping, a 200 Hz Zero Moment Point (ZMP) control loop backed by 8-zone ground reaction telemetry, double-shear linkage clevises, and a zoned dual-durometer elastomer skin with integrated internal accordion pleats to eliminate tearing under extreme flexion.
+2. Hardened Full-Body Kinematic Chain
+The Unit-1 lower body decouples sagittal stride from lateral waddle splay across 10 lower-body degrees of freedom (DOF), while retaining full upper-body expressivity:
+| Joint Subsystem | Actuator Architecture | Torque Specs & Braking | Bearing / Load Isolation | CAN ID |
+|---|---|---|---|---|
+| Spine (Pitch/Roll) | Brushless Quasi-Direct Drive (QDD) | 18 N·m Cont. / 45 N·m Peak | Back-to-back angular contact pairs (5.5 kN) | 0x010, 0x011 |
+| Hip Pitch (2x) | Integrated Planetary BLDC | 25 N·m Cont. / 60 N·m Peak | Dual deep-groove ball bearings (4.8 kN) | 0x012, 0x013 |
+| Hip Roll / Splay (2x) | Harmonic Drive Component Set | 20 N·m Cont. / 50 N·m Peak | High-rigidity cross-roller bearing (7.2 kN) | 0x014, 0x015 |
+| Knee Joint (2x) | 100:1 Harmonic Drive + BLDC | 35 N·m Cont. / 85 N·m Peak + 24V EM Brake | Integrated harmonic cross-roller output flange | 0x016, 0x017 |
+| Ankle Gimbal (2x 2-DOF) | Shank Pushrod In-Line BLDC | Dual 600 N axial force (Push/Pull) | 7075-T6 double-shear clevises + M6 PTFE heim joints | 0x018, 0x019 |
+| Neck & Animatronics | 3-DOF Neck + 12x Facial Servos | 0.8 to 6 N·m torque class | Sintered bronze pivot bushings | 0x020 (STM32 Node) |
+3. Hardened Power Network & Bus Clamping
+Locomotion creates high regenerative back-EMF spikes that threaten digital compute rails. The Unit-1 PDN incorporates active transient suppression:
+ * Battery Core: 6S2P Li-ion pack (22.2V nominal, 10,000 mAh, 50A continuous discharge) equipped with an SMBus hardware BMS monitoring cell differential, current, and thermal cutoffs.
+ * Active Brake Chopper: Solid-state transient clamping circuit monitoring the 24V bus. If bus voltage exceeds 27.5V during rapid knee/hip deceleration, a fast comparator gates a power MOSFET to dump excess kinetic back-EMF into an aluminum chassis-mounted 1.5 \Omega, 50W ceramic ballast resistor.
+ * Isolated Compute Supply: 12.0V, 15A synchronous buck regulator feeding the Jetson AGX Orin with input TVS diode protection (30V clamping ceiling) and LC pi-filters to eliminate motor switching ripple.
+ * Auxiliary Step-Down Rails: 5.0V (10A) rail for cameras and servo logic; 3.3V/1.8V ultra-low-noise LDOs for absolute magnetic encoders and sensor front-ends.
+4. Real-Time ZMP Gait & Locomotion Control Engine
+The waddling gait is achieved by maintaining a constant forward-knee flexion while swaying the pelvis over alternating support polygons:
+ * ZMP Preview Controller (200 Hz): The Orin compute module calculates Zero Moment Point trajectories in real time based on a Linear Inverted Pendulum Model (LIPM), keeping the ground reaction vector inside the active foot envelope.
+ * Foot Telemetry: Each foot plate houses a 4-zone force-sensitive resistor (FSR) matrix (heel, medial metatarsal, lateral metatarsal, toe) sampling at 1 kHz via the lower leg STM32 node, detecting foot strikes, liftoff, and lateral tipping moments.
+ * Zero-Power Posture Hold: When the platform halts in a standing position, 24V spring-applied electromagnetic brakes on the knee shafts engage within 250 ms, allowing the drive current to cut to zero while maintaining a rigid stance with zero heat buildup.
+5. Biomimetic Composite Armor & Skin Casing
+The outer aesthetic shell and compliant flesh survive repeated dynamic flexing without surface tearing, wrinkling, or delamination:
+ * Skeletal Enclosure: 6061-T6 aluminum structural spars closed off with 2.5 mm 3K quasi-isotropic carbon-fiber covers providing torsional rigidity and EMI shielding.
+ * Sub-Dermal Matrix: 45 kg/m³ low-density compliant polyurethane foam layer to deaden internal acoustic motor noise and provide human compliance.
+ * Dual-Durometer Epidermal Skin:
+   * Joint Flexure Zones (Groin, Knee Creases, Ankles): Cast Shore 00-30 platinum silicone with molded internal accordion bellows, supporting over 900% elongation without surface necking.
+   * Structural / Tactile Contact Surfaces: Cast Shore 10A platinum silicone reinforced with an embedded flexible nylon mesh scrim to prevent puncture and tearing.
+ * Tactile Feedback Layer: 64-channel piezoresistive grid embedded between the foam and outer skin, multiplexed to CAN ID 0x030.
+6. Master CAN Bus Topology & Frame Map
+========================================================================================
+CAN ID    Node Assignment         Direction     Payload Format           Frequency
+========================================================================================
+0x001     System E-Stop           Host -> ALL   [0xFF, 0x00, 0x00, 0x00] Async (Critical)
+0x010     Spine Pitch BLDC        Host -> Node  float32 pos, float32 tor 100 Hz
+0x011     Spine Roll BLDC         Host -> Node  float32 pos, float32 tor 100 Hz
+0x012     Left Hip Pitch          Host -> Node  float32 pos, float32 tor 200 Hz
+0x013     Right Hip Pitch         Host -> Node  float32 pos, float32 tor 200 Hz
+0x014     Left Hip Roll           Host -> Node  float32 pos, float32 tor 200 Hz
+0x015     Right Hip Roll          Host -> Node  float32 pos, float32 tor 200 Hz
+0x016     Left Knee BLDC + Brake  Host -> Node  float32 pos, uint8 brake 200 Hz
+0x017     Right Knee BLDC + Brake Host -> Node  float32 pos, uint8 brake 200 Hz
+0x018     Left Ankle Pushrods     Host -> Node  float32 pitch, flt32 roll 200 Hz
+0x019     Right Ankle Pushrods    Host -> Node  float32 pitch, flt32 roll 200 Hz
+0x020     Head / Facial MCU       Host -> Node  uint8 jaw, eye_l, eye_r  50 Hz
+0x021     Diaphragm Stepper       Host -> Node  float32 breathing_bpm    20 Hz
+0x030     Torso Tactile Hub       Node -> Host  uint32 mask, uint16 peak 50 Hz
+0x032     Left Foot 4-FSR Matrix  Node -> Host  uint16 F0, F1, F2, F3    200 Hz
+0x033     Right Foot 4-FSR Matrix Node -> Host  uint16 F0, F1, F2, F3    200 Hz
+========================================================================================
+```[span_15](start_span)[span_15](end_span)
+
+---
+
+### 7. Consolidated Bill of Materials (BOM)
+
+| System Domain | Hardened Specification Components | Cost (USD) |
+| :--- | :--- | :--- |
+| **Primary Edge AI** | NVIDIA Jetson AGX Orin 64GB Developer Kit[span_16](start_span)[span_16](end_span) | $1,999[span_17](start_span)[span_17](end_span) |
+| **Distributed MCUs** | 3x STM32H723 Core Modules (Head, Torso/Tactile, Lower Limbs) | $320 |
+| **Lower-Body Drive Train** | 4x Planetary Hips + 2x Knee Harmonics w/ 24V Brakes + 4x Ankle Drives | $3,400 |
+| **Upper-Body Actuation** | 2x QDD Spine Motors + 3-DOF Neck + 12x Facial Coreless Micro-Servos | $1,200 |
+| **PDN & Transient Clamping** | 6S2P Li-ion 10Ah + Active 27.5V Brake Chopper + Buck Converters | $520 |
+| **Structural Endoskeleton** | CNC 7075/6061 Billet Pelvis/Spars, Carbon Boxes, Double-Shear Clevises | $2,100 |
+| **Dual-Durometer Skin** | SLA Tooling Negatives, Shore 00-30 Pleated Joints, Shore 10A Skin, Scrim | $1,550 |
+| **Sensors & Ground Reaction**| Intel RealSense D435i, 64-Ch Tactile Grid, 8x Foot FSR Sensors, MEMS Mics | $720 |
+| **Thermal & Cabling** | Graphite PGS Spreaders, Dual Blowers, Braided Shielded Bus Harnessing | $300 |
+| **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$12,209** |
+
