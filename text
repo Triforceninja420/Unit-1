@@ -1,21 +1,44 @@
 # ====================================================================
-# Project: Unit-1 / Companion Chassis
-# Component: Hardware Bill of Materials (BOM) & Netlist Reference
-# Variant: Path 1 buy-chassis + owned brain  (NOT DittoBot 25 mm / Phase 0 face)
+# Project: Unit-1 / Protocol Frame
+# Component: BOM & netlist — public C-3PO-style kit
 # Author: Craig Edward Ralls (2026)
 # Revised: 2026-09-15
+# NOT DittoBot. NOT a soft-body kit.
 # ====================================================================
 
-[BILL OF MATERIALS — Path 1]
+[BILL OF MATERIALS — Frame]
 Item  Qty  Designator   Part / spec                         Notes
 --------------------------------------------------------------------------------
-CHASSIS
-1     1    BODY1        Platinum-cure silicone doll         Irontech / Zelex / Starpery / RealDoll
-                        160–168 cm, EVO stainless skeleton  Gel breasts + gel glutes, standing feet
-2     1    HEAD1        Static hyperreal OR robotic head    RealDoll/Realbotix class if motors
-3     1    STAND1       Manufacturer stand + neck support   Do not hang by the neck
-4     2    SLV-V        Platinum vaginal sleeve             Removable. Keep a spare
-5     2    SLV-A        Platinum anal sleeve                Removable. Keep a spare
-6     1    WIG1         Ventilated cap wig                  Serviceable
+1     ~4m  TUBE         20x20 2020 or 25 mm square Al       Legs + torso
+2     1    PELVIS       3 mm plate or printed box           Hip width 180–220 mm
+3     6-8  S_LEG        Digital 25–40 kg-cm, metal gear     Hip pitch, knee, ankle; +roll optional
+4     0-2  S_ARM        15–25 kg-cm                         Shoulder. Dummy arms legal
+5     1    U1           Pico or XIAO RP2040                 Gait table only
+6     1    BAT          2S LiPo 3–5 Ah or 7.4 V pack        Pelvis mount
+7     1    BEC          5 V for logic if needed             Keep 7.4 V off U1 VCC
+8     1    F1           10–15 A fuse on servo rail
+9     1    ESTOP        NC switch on rail enable
+10    2    FOOT         Plywood + rubber                    Wide
+11    lot  HW           M3/M4/M5, locknuts, metal horns
+12    opt  PLATES       PETG/foam < 2 kg                    After the card
 
-COMPUTE
+[SUPERSEDED ON THIS KIT]
+      Full silicone/TPE body as structure
+      Cloud girlfriend as gait brain
+      DittoBot EPM / cap-dump / Ø6 latch
+      Closed-loop Atlas claim
+
+[NETLIST — gait]
+NET "VSERVO"    BAT+, F1, ESTOP, all servo V+
+NET "GND"       BAT−, U1 GND, servo GND
+NET "V3V3"      U1 3V3 / BEC as required
+NET "SIG_*"     U1 GPIO → each servo signal
+NET "ESTOP"     breaks VSERVO to the bus
+
+Hold after Halt = pose freeze or mechanical lock.
+Measure mass, stall A, ten steps. Paper walk claims retired until the card is filled.
+
+[CASH — 2026 street, USD]
+One Frame         ~250–700 depending on servo class
+Plates + paint    ~30–150
+Optional voice    ~20–80
