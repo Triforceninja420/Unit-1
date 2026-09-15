@@ -1,84 +1,80 @@
-# FRAME.md — Unit-1 metal armature coupon
+# FRAME.md — public C-3PO coupon
 
 Design owned by Craig. Locked 2026-09-15.
 
-**This file is the buildable robot.**
+Anyone can build this. It is a protocol-droid armature, not a product claim about a dressed human.
+
 Rigid biped. Hobby servos. Open-loop gait. Wobbly C-3PO demo.
 The shell hangs on later. The shell is not this coupon.
-
-Do not paste Path 1 silicone mass (32–38 kg) into this force box.
-Do not paste DittoBot EPM / 40 N shear / Ø6 coil numbers here.
-Do not claim a dressed companion walks until this card is filled *and* a separate dressed-mass card exists.
 
 ---
 
 ## Why this cut
 
-The only piece with real engineering is the metal skeleton:
+The metal skeleton is the only piece with real engineering:
+
 - load paths
 - joint axes
 - servo torque vs limb mass
-- open-loop timing that doesn’t fall over on a flat floor
+- a step script that does not fall over on tile
 
-Everything else is a cover: platinum skin, gel, sleeves, Jetson voice, 41 °C pads.
-Those hang on a frame that already stands, sits, and takes ten ugly steps.
+Paint, cape, voice, and any soft cover are costumes.
 
 ---
 
-## Locked envelope (frame only)
+## Locked envelope
 
 | Item | Locked value |
 | :--- | :--- |
-| Form | Rigid biped armature, adult proportions, 160–168 cm target height |
-| Structure | Aluminum tube / plate or 3D-printed joints on metal spars. No silicone on this coupon |
-| Actuation | Hobby digital servos (or robot-servo class). Position control. **Open-loop gait** |
-| Gait claim | Ten consecutive steps on flat floor without a boom. Wobble allowed. C-3PO is the quality bar |
-| Balance | No force-torque ankles. No ZMP stack required on this coupon |
-| Mass (bare frame + servos + pack) | Target **8–14 kg**. Flag if >16 kg before any shell |
-| Shell | **Off.** Soft cover, doll body, and sleeves are a later hang |
-| Walk + 32 kg silicone | **Forbidden on this coupon.** That is a different card |
-| Human contact | Tether or boom optional. 35 N interrupt still applies to any clamp/pinch joint |
-| Bus | 6–8.4 V servo rail and/or 12 V walk rail. Fused. E-stop cuts servo enable |
-| Brain on this coupon | MCU gait player (RP2040 / Pico / Arduino Mega class). Jetson is not required to walk |
+| Form | Rigid biped, adult proportions, 160–168 cm |
+| Structure | Aluminum tube / plate, or printed joint blocks on metal spars |
+| Actuation | Hobby digital servos. Position control. Open-loop gait |
+| Quality bar | Ten consecutive steps on a flat floor. Wobble allowed. C-3PO |
+| Balance | No force-torque ankles. No ZMP stack on this coupon |
+| Bare mass | **8–14 kg** including servos + pack. Flag if >16 kg |
+| Shell | Off for the walk claim |
+| Dressed / 32 kg walk | Forbidden on this coupon |
+| Human path | E-stop on servo enable. Boom optional; write it on the card |
+| Bus | 6–8.4 V servo rail and/or 12 V. Fused |
+| Brain | MCU gait player. Jetson not required to walk |
 
 ## Joint set (minimum demo)
-
-Hip yaw optional. You need enough to shuffle, not to dance.
 
 | Joint | Side | Notes |
 | :--- | :--- | :--- |
 | Hip pitch | L/R | Primary step |
 | Knee pitch | L/R | |
-| Ankle pitch | L/R | First-order fall stop. Cheap is fine |
-| Hip roll | L/R | Weight shift. Can start locked, then add |
-| Shoulder pitch | L/R | Arm swing / counterweight. Can start dummy |
-| Elbow | L/R | Optional Phase F1 |
-| Torso / waist | 0–1 | Optional. Adds wobble if you do it early |
+| Ankle pitch | L/R | Cheap first-order fall stop |
+| Hip roll | L/R | Weight shift. May start locked |
+| Shoulder pitch | L/R | Arm swing / counterweight. Dummy arms allowed |
+| Elbow | L/R | Optional |
+| Waist | 0–1 | Optional. Adds wobble if early |
 
-Head servos stay on the Path 1 / Harmony stack. Do not put a 17-motor face on a gait coupon.
+Head can be a bucket. Fancy face motors are a different stack.
 
-## What “open-loop gait” means here
+## Open-loop gait
 
-A recorded or scripted sequence:
-1. Shift COM over stance foot (hip roll or a lean stop).
+Scripted sequence, no vision required:
+
+1. Shift COM over the stance foot (hip roll or a lean stop).
 2. Lift swing foot (hip + knee).
 3. Plant.
-4. Repeat other side.
+4. Other side.
 
-No vision. No IMU required for the first ten steps (IMU is allowed as a logger, not as the stabilizer, until the card says otherwise).
-If it needs a fishing-line boom for the first week, say so on the card. Boom-assisted steps are not a walk claim.
+IMU may log. IMU does not have to stabilize the first ten steps.
+Boom-assisted steps are allowed. They are not a walk claim. Write boom-on.
 
-## Success criteria
+## Success tests
 
-1. Bare frame stands 60 s unpowered-lock or servo-hold, no boom.
-2. Ten steps, flat floor, no boom — or the card says boom-on and you do not use the word walk.
-3. E-stop drops servo enable < 200 ms.
-4. Measured mass, servo list, stall current, pack voltage written on `MEASUREMENT_CARD.md` (Frame table).
-5. No silicone, no companion language.
+1. Bare frame stands 60 s on servo-hold or mechanical lock, no boom.
+2. Ten steps, flat floor, no boom — or the card says boom-on.
+3. E-stop drops servo enable in < 200 ms.
+4. Mass, servo list, stall current, pack voltage on the Frame table.
+5. No companion language on a blank card.
 
 ## What this file does not do
 
-- Does not unlock Path 1 “no walk” on a dressed body
-- Does not turn hobby servos into a closed-loop humanoid
-- Does not set dressed-mass torque (do that after you weigh the actual shell)
+- Does not make hobby servos a closed-loop humanoid
+- Does not set torque for a heavy soft shell
 - Does not mix DittoBot latch numbers into hip joints
+- Does not require a nightstand LLM to take a step
