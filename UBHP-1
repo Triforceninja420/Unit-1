@@ -3,7 +3,7 @@ Master Engineering Specification & System Architecture
 Document Revision: 3.0.0 (Hardened & Unit-1 Wrapped)
 System Class: Fully Autonomous Edge-AI Bipedal Platform
 Kinematic Gait Model: Stiff-Legged Waddling / Shuffle Kinematics (ZMP Stabilized)
-Status: Validated System Specification
+Status: design brief, not validated, not the public build
 1. Master System Overview & Unit-1 Design Philosophy
 The Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1) integrates dynamic, zero-cloud edge intelligence with a hardened, low-backlash humanoid chassis. Designed specifically to execute stable, characteristic waddling and shuffling bipedal gaits while retaining tactile compliance and realistic expressive animatronics, the platform resolves critical mechanical and electrical failure modes identified during stress testing.
 Key architectural upgrades include zero-power electromagnetic holding brakes at high-stress joints, active dynamic bus clamping, a 200 Hz Zero Moment Point (ZMP) control loop backed by 8-zone ground reaction telemetry, double-shear linkage clevises, and a zoned dual-durometer elastomer skin with integrated internal accordion pleats to eliminate tearing under extreme flexion.
