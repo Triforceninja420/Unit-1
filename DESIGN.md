@@ -1,57 +1,53 @@
 # DESIGN.md
-Project: Unit-1 / Companion Chassis
+Project: Unit-1 / Protocol Frame
 Inventor: Craig Edward Ralls
-Status: Paper baseline, Path 1 locked
+Status: Public Frame kit locked
 Date: 2026-09-15
 
-## 1. Core architecture (all versions)
+## 1. Core architecture
 
-- Heterogeneous modules: Chassis / Intimate cartridge / Compute
-- 12 V nominal power bus. Logic stays 5 V / 3.3 V. Never put mains in the pelvis
-- 5-state session machine: Idle → Preheat → Attend → Intimate → Cleanup (+ Fault)
-- Safe-reserve rule: if pack SOC or thermal headroom drops below threshold, heaters and sleeve motors drop, voice can stay
-- Layered interlocks: nape E-stop, hardware mic mute, heater thermal fuse, 35 N interrupt
-- Soft safety skin on any human-proximate surface that has a heater or a motor behind it
-- Adult face, adult voice, adult constitution. Child / pet / public-demo use is not a version
+- Heterogeneous modules: Frame / Plates / Voice (optional)
+- Servo rail 6–8.4 V. Logic 5 V / 3.3 V. Never mains in the pelvis
+- 4-state machine: Idle → Stand → Shuffle → Halt (+ Fault)
+- Safe-reserve: if pack voltage sags, gait freezes in a squat/lock, voice can stay
+- E-stop cuts servo enable. Hardware, not an app button
+- Protocol-droid *style*. Your plates. Not a licensed costume
 
-Carry-forward from DittoBot companion gates (`DittoBot/LOCKS.md`, 2026-09-14):
-35 N human-contact interrupt ≠ 40 N docked shear.
-41 °C skin cap.
-No companion claim on a blank measurement card.
-Skills / LLM cannot override E-stop, brownout cutoff, or heater/motor fire interlock.
+This is the project anyone builds if they want a C-3PO-like droid in the shop.
 
 ## 2. Version ladder
 
-**V0.9 Phase 0 — Lab coupon (now)**
-Nightstand brain + one heater pad + one FSR + local voice loop. No body required. Prove latency, 41 °C cap, E-stop, mute.
+**V0.8 Frame — the robot (now)**
+Rigid biped. Hobby servos. Open-loop gait. See `FRAME.md`.
 
-**V1.0 Phase 1 — Pelvic cartridge**
-Removable sleeves + optional suction/heat dock on the bench. Prove wash/dry cycle, leak-down, 42 °C sleeve cutout.
+**V0.9 Voice (optional)**
+Pico or small SBC + speaker + local TTS. Polite translator prompt in `CONSTITUTION.md`.
+No heaters required. No cloud required.
 
-**V1.1 Phase 2 — Bought chassis integrate**
-Platinum silicone body, EVO skeleton, stand, spine loom, nape E-stop, zoned heat, 8–10 FSRs. Static or robotic head.
+**V1.0 Plates**
+PETG / foam / vac-form covers, gold or whatever. Budget < 2 kg. Still the same gait.
 
-**V1.2 Phase 3 — Owned brain on-body**
-Jetson in waist bay or umbilical. Local memory. Factory cloud is a disabled option, not the soul.
+**V1.1 Hands + head yaw**
+Printed mitts. One head servo. Still open-loop.
 
 **V2.0**
-Not this repo. Not a walk claim. Not a DittoBot swarm skin.
+Not this repo. Not closed-loop parkour. Not DittoBot programmable matter.
 
-## 3. Locked envelopes (Path 1)
+## 3. Locked envelopes (public kit)
 
 | Item | Locked value |
 | :--- | :--- |
-| Height | 160–168 cm preferred (4'10" Harmony-class accepted if lift matters) |
-| Mass | 32–38 kg target; flag if >42 kg |
-| Skin | Platinum-cure silicone. TPE is prototype-only |
-| Skeleton | Stainless EVO / yoga class, neck lock for a robotic head |
-| Soft tissue | Gel breasts + gel glutes |
-| Orifices | Removable platinum sleeves, vaginal + anal separate |
-| Heat rail | 5–12 V DC only |
-| Skin contact cap | **41 °C** |
-| Sleeve internal cap | **42 °C** hardware fuse, firmware 40 °C |
-| Human interrupt | **35 N** on any closing / clamping actuator |
-| Walk | **Forbidden on this stack** |
-| Bus | 12 V chassis, fused per rail, GFCI on wall bricks |
-| Brain default | Local. Cloud is opt-in lookup |
-| Age class | 25+ appearance, 18+ operator |
+| Height | 160–168 cm |
+| Bare mass | 8–14 kg; flag >16 kg |
+| Walk | Open-loop hobby-servo gait on Frame / light plates only |
+| Heavy soft shell walk | Forbidden |
+| Human interrupt | 35 N on clamp/pinch; E-stop on enable |
+| Bus | Fused servo rail + GFCI on wall chargers |
+| Brain default | Local MCU. Cloud optional and off |
+| Likeness | Style homage only. No official marks |
+
+## 4. Optional stacks (not the kit)
+
+Soft companion covers, heat pads, tactile / “feel-me” research, sleeves, and local
+girlfriend brains live only in `OPTIONAL_SHELL.md`. They do not change Frame numbers.
+They do not walk. UBHP-1 north star stays in `VISION.md` if present; do not paste it here.
