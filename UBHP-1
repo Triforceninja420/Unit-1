@@ -1,6 +1,6 @@
 Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1)
 Master Engineering Specification & System Architecture
-Document Revision: 3.0.0 (Hardened & Unit-1 Wrapped)
+Document Revision: Document Revision 0.1.0 — Design Brief (Unvalidated)
 System Class: Fully Autonomous Edge-AI Bipedal Platform
 Kinematic Gait Model: Stiff-Legged Waddling / Shuffle Kinematics (ZMP Stabilized)
 Status: design brief, not validated, not the public build
