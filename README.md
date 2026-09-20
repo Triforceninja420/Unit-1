@@ -52,3 +52,9 @@ Optional tracks (not required for C-3PO):
 - `LOCKS.md` — what must not get mixed
 - `text` / `text.txt` — BOM + netlist
 - `PHASE0.md` / `CONSTITUTION.md` — optional brain / later hang
+
+## Technical Documentation
+
+* [Master Design Document](MASTER_DESIGN.MD) — System architecture, mechanical mounting interface, dynamic load margins, and CAN bus topology.
+* [Dimension Sheet](DIMENSION_SHEET.MD) — Dimensional envelope, joint torque ratings, mass breakdown, and ZMP reference specifications.
+
