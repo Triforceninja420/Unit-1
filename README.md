@@ -55,6 +55,6 @@ Optional tracks (not required for C-3PO):
 
 ## Technical Documentation
 
-* [Master Design Document](MASTER_DESIGN.MD) — System architecture, mechanical mounting interface, dynamic load margins, and CAN bus topology.
-* [Dimension Sheet](DIMENSION_SHEET.MD) — Dimensional envelope, joint torque ratings, mass breakdown, and ZMP reference specifications.
+* MASTER_DESIGN.MD — System architecture, mechanical mounting interface, dynamic load margins, and CAN bus topology.
+* DIMENSION_SHEET.MD — Dimensional envelope, joint torque ratings, mass breakdown, and ZMP reference specifications.
 
