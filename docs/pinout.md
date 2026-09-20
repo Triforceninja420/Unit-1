@@ -1,7 +1,7 @@
 
 ---
 
-### File 2: `docs/pinout.md`
+`docs/pinout.md`
 ```markdown
 # Unit-1 Hardware Pin Mapping & Power Specs
 
