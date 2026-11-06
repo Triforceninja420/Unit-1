@@ -15,7 +15,7 @@ The Unit-1 lower body decouples sagittal stride from lateral waddle splay across
 |---|---|---|---|---|
 | Spine (Pitch/Roll) | Brushless Quasi-Direct Drive (QDD) | 18 N·m Cont. / 45 N·m Peak | Back-to-back angular contact pairs (5.5 kN) | 0x010, 0x011 |
 | Hip Pitch (2x) | Integrated Planetary BLDC | 25 N·m Cont. / 60 N·m Peak | Dual deep-groove ball bearings (4.8 kN) | 0x012, 0x013 |
-| Hip Roll / Splay (2x) | Harmonic Drive Component Set | 20 N·m Cont. / 50 N·m Peak | High-rigidity cross-roller bearing (7.2 kN) | 0x014, 0x015 |
+| Hip Roll / Splay (2x) | Harmonic Drive Component Set | 12 N·m Cont. / 35 N·m Peak | High-rigidity cross-roller bearing (7.2 kN) | 0x014, 0x015 |
 | Knee Joint (2x) | 100:1 Harmonic Drive + BLDC | 35 N·m Cont. / 85 N·m Peak + 24V EM Brake | Integrated harmonic cross-roller output flange | 0x016, 0x017 |
 | Ankle Gimbal (2x 2-DOF) | Shank Pushrod In-Line BLDC | Dual 600 N axial force (Push/Pull) | 7075-T6 double-shear clevises + M6 PTFE heim joints | 0x018, 0x019 |
 | Neck & Animatronics | 3-DOF Neck + 12x Facial Servos | 0.8 to 6 N·m torque class | Sintered bronze pivot bushings | 0x020 (STM32 Node) |
