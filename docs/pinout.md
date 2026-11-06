@@ -42,3 +42,17 @@ V0.8 firmware is TX-only on the servo bus. DIR is driven TX before each packet.
 | 12 | Right ankle roll |
 
 Protocol lock: Feetech / Waveshare STS-style write to goal position register 0x2A, 4096 counts / rev, center 2048.
+
+## Head Eye Cameras (ESP32-CAM modules)
+
+Stereo pair mounted in the eye sockets, giving the platform natural gaze-coupled vision.
+Each eye is an independent ESP32-CAM (OV2640, 2 MP) on its own small carrier.
+
+- **Left eye:** ESP32-CAM, streams MJPEG or raw frames over CAN to the Orin.
+- **Right eye:** ESP32-CAM, same stack, second stream.
+- **CAN ID:** 0x022 (Node -> Host, frame metadata + compressed image chunks).
+- **Power:** 5.0 V rail (shared with cameras/servo logic), ~300 mA peak per module during capture.
+- **Thermal:** passive heatsink on each module; eye sockets vent through the neck cavity.
+- **IR:** optional 850 nm LED ring per socket for low-light, switched with the 5 V rail.
+- **Mounting:** each module seats in a 3D-printed cradle bonded to the neck armature, aligned so the optical axes converge ~1.5 m ahead at the nominal 22° knee flexion stance.
+- **Note:** the S3 DevKitC-1 has no CSI/USB-host bandwidth for this; the eye modules are self-contained and do not consume S3 GPIOs. The head STM32 node (0x020) remains responsible for jaw/eye servos only.
