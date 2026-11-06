@@ -72,14 +72,14 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 | :--- | :--- | :--- |
 | **Primary Edge AI** | NVIDIA Jetson AGX Orin 64GB Developer Kit | $1,999 |
 | **Distributed MCUs** | 3x STM32H723 Core Modules (Head, Torso/Tactile, Lower Limbs) | $320 |
-| **Lower-Body Drive Train** | 4x Planetary Hips + 2x Knee Harmonics w/ 24V Brakes + 4x Ankle Drives | $3,400 |
+| **Lower-Body Drive Train** | 4x Planetary Hips (25 N·m) + 2x Hip Roll Harmonics (12 N·m) + 2x Knee Harmonics w/ 24V Brakes (35 N·m) + 4x Ankle Pushrod Drives | $3,000 |
 | **Upper-Body Actuation** | 2x QDD Spine Motors + 3-DOF Neck + 12x Facial Coreless Micro-Servos | $1,200 |
 | **PDN & Transient Clamping** | 6S2P Li-ion 10Ah + Active 27.5V Brake Chopper + Buck Converters | $520 |
 | **Structural Endoskeleton** | CNC 7075/6061 Billet Pelvis/Spars, Carbon Boxes, Double-Shear Clevises | $2,100 |
 | **Dual-Durometer Skin** | SLA Tooling Negatives, Shore 00-30 Pleated Joints, Shore 10A Skin, Scrim | $1,550 |
 | **Sensors & Ground Reaction**| Intel RealSense D435i, 64-Ch Tactile Grid, 8x Foot FSR Sensors, MEMS Mics | $720 |
 | **Thermal & Cabling** | Graphite PGS Spreaders, Dual Blowers, Braided Shielded Bus Harnessing | $300 |
-| **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$12,209** |
+| **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$11,809** |
 
 The structural mass budget and baseline link lengths can be locked to freeze the kinematic tree for the preview controller.
 These values assume a nominal 165 cm overall stature with the lower-body proportions tuned to support the bent-knee, wide-stance Linear Inverted Pendulum Model (LIPM).
