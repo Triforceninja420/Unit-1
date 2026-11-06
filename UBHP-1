@@ -1,12 +1,14 @@
 Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1)
 Master Engineering Specification & System Architecture
-Document Revision: Document Revision 0.1.0 — Design Brief (Unvalidated)
+Document Revision 0.1.0 — Design Brief (Unvalidated)
 System Class: Fully Autonomous Edge-AI Bipedal Platform
 Kinematic Gait Model: Stiff-Legged Waddling / Shuffle Kinematics (ZMP Stabilized)
 Status: design brief, not validated, not the public build
+
 1. Master System Overview & Unit-1 Design Philosophy
 The Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1) integrates dynamic, zero-cloud edge intelligence with a hardened, low-backlash humanoid chassis. Designed specifically to execute stable, characteristic waddling and shuffling bipedal gaits while retaining tactile compliance and realistic expressive animatronics, the platform resolves critical mechanical and electrical failure modes identified during stress testing.
 Key architectural upgrades include zero-power electromagnetic holding brakes at high-stress joints, active dynamic bus clamping, a 200 Hz Zero Moment Point (ZMP) control loop backed by 8-zone ground reaction telemetry, double-shear linkage clevises, and a zoned dual-durometer elastomer skin with integrated internal accordion pleats to eliminate tearing under extreme flexion.
+
 2. Hardened Full-Body Kinematic Chain
 The Unit-1 lower body decouples sagittal stride from lateral waddle splay across 10 lower-body degrees of freedom (DOF), while retaining full upper-body expressivity:
 | Joint Subsystem | Actuator Architecture | Torque Specs & Braking | Bearing / Load Isolation | CAN ID |
@@ -17,17 +19,20 @@ The Unit-1 lower body decouples sagittal stride from lateral waddle splay across
 | Knee Joint (2x) | 100:1 Harmonic Drive + BLDC | 35 N·m Cont. / 85 N·m Peak + 24V EM Brake | Integrated harmonic cross-roller output flange | 0x016, 0x017 |
 | Ankle Gimbal (2x 2-DOF) | Shank Pushrod In-Line BLDC | Dual 600 N axial force (Push/Pull) | 7075-T6 double-shear clevises + M6 PTFE heim joints | 0x018, 0x019 |
 | Neck & Animatronics | 3-DOF Neck + 12x Facial Servos | 0.8 to 6 N·m torque class | Sintered bronze pivot bushings | 0x020 (STM32 Node) |
+
 3. Hardened Power Network & Bus Clamping
 Locomotion creates high regenerative back-EMF spikes that threaten digital compute rails. The Unit-1 PDN incorporates active transient suppression:
  * Battery Core: 6S2P Li-ion pack (22.2V nominal, 10,000 mAh, 50A continuous discharge) equipped with an SMBus hardware BMS monitoring cell differential, current, and thermal cutoffs.
- * Active Brake Chopper: Solid-state transient clamping circuit monitoring the 24V bus. If bus voltage exceeds 27.5V during rapid knee/hip deceleration, a fast comparator gates a power MOSFET to dump excess kinetic back-EMF into an aluminum chassis-mounted 1.5 \Omega, 50W ceramic ballast resistor.
+ * Active Brake Chopper: Solid-state transient clamping circuit monitoring the 24V bus. If bus voltage exceeds 27.5V during rapid knee/hip deceleration, a fast comparator gates a power MOSFET to dump excess kinetic back-EMF into an aluminum chassis-mounted 1.5 Ω, 50W ceramic ballast resistor.
  * Isolated Compute Supply: 12.0V, 15A synchronous buck regulator feeding the Jetson AGX Orin with input TVS diode protection (30V clamping ceiling) and LC pi-filters to eliminate motor switching ripple.
  * Auxiliary Step-Down Rails: 5.0V (10A) rail for cameras and servo logic; 3.3V/1.8V ultra-low-noise LDOs for absolute magnetic encoders and sensor front-ends.
+
 4. Real-Time ZMP Gait & Locomotion Control Engine
 The waddling gait is achieved by maintaining a constant forward-knee flexion while swaying the pelvis over alternating support polygons:
  * ZMP Preview Controller (200 Hz): The Orin compute module calculates Zero Moment Point trajectories in real time based on a Linear Inverted Pendulum Model (LIPM), keeping the ground reaction vector inside the active foot envelope.
  * Foot Telemetry: Each foot plate houses a 4-zone force-sensitive resistor (FSR) matrix (heel, medial metatarsal, lateral metatarsal, toe) sampling at 1 kHz via the lower leg STM32 node, detecting foot strikes, liftoff, and lateral tipping moments.
  * Zero-Power Posture Hold: When the platform halts in a standing position, 24V spring-applied electromagnetic brakes on the knee shafts engage within 250 ms, allowing the drive current to cut to zero while maintaining a rigid stance with zero heat buildup.
+
 5. Biomimetic Composite Armor & Skin Casing
 The outer aesthetic shell and compliant flesh survive repeated dynamic flexing without surface tearing, wrinkling, or delamination:
  * Skeletal Enclosure: 6061-T6 aluminum structural spars closed off with 2.5 mm 3K quasi-isotropic carbon-fiber covers providing torsional rigidity and EMI shielding.
@@ -36,6 +41,7 @@ The outer aesthetic shell and compliant flesh survive repeated dynamic flexing w
    * Joint Flexure Zones (Groin, Knee Creases, Ankles): Cast Shore 00-30 platinum silicone with molded internal accordion bellows, supporting over 900% elongation without surface necking.
    * Structural / Tactile Contact Surfaces: Cast Shore 10A platinum silicone reinforced with an embedded flexible nylon mesh scrim to prevent puncture and tearing.
  * Tactile Feedback Layer: 64-channel piezoresistive grid embedded between the foam and outer skin, multiplexed to CAN ID 0x030.
+
 6. Master CAN Bus Topology & Frame Map
 ========================================================================================
 CAN ID    Node Assignment         Direction     Payload Format           Frequency
@@ -49,23 +55,22 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 0x015     Right Hip Roll          Host -> Node  float32 pos, float32 tor 200 Hz
 0x016     Left Knee BLDC + Brake  Host -> Node  float32 pos, uint8 brake 200 Hz
 0x017     Right Knee BLDC + Brake Host -> Node  float32 pos, uint8 brake 200 Hz
-0x018     Left Ankle Pushrods     Host -> Node  float32 pitch, flt32 roll 200 Hz
-0x019     Right Ankle Pushrods    Host -> Node  float32 pitch, flt32 roll 200 Hz
+0x018     Left Ankle Pushrods     Host -> Node  float32 pitch, float32 roll 200 Hz
+0x019     Right Ankle Pushrods    Host -> Node  float32 pitch, float32 roll 200 Hz
 0x020     Head / Facial MCU       Host -> Node  uint8 jaw, eye_l, eye_r  50 Hz
 0x021     Diaphragm Stepper       Host -> Node  float32 breathing_bpm    20 Hz
 0x030     Torso Tactile Hub       Node -> Host  uint32 mask, uint16 peak 50 Hz
 0x032     Left Foot 4-FSR Matrix  Node -> Host  uint16 F0, F1, F2, F3    200 Hz
 0x033     Right Foot 4-FSR Matrix Node -> Host  uint16 F0, F1, F2, F3    200 Hz
 ========================================================================================
-```[span_15](start_span)[span_15](end_span)
 
 ---
 
-### 7. Consolidated Bill of Materials (BOM)
+## 7. Consolidated Bill of Materials (BOM)
 
 | System Domain | Hardened Specification Components | Cost (USD) |
 | :--- | :--- | :--- |
-| **Primary Edge AI** | NVIDIA Jetson AGX Orin 64GB Developer Kit[span_16](start_span)[span_16](end_span) | $1,999[span_17](start_span)[span_17](end_span) |
+| **Primary Edge AI** | NVIDIA Jetson AGX Orin 64GB Developer Kit | $1,999 |
 | **Distributed MCUs** | 3x STM32H723 Core Modules (Head, Torso/Tactile, Lower Limbs) | $320 |
 | **Lower-Body Drive Train** | 4x Planetary Hips + 2x Knee Harmonics w/ 24V Brakes + 4x Ankle Drives | $3,400 |
 | **Upper-Body Actuation** | 2x QDD Spine Motors + 3-DOF Neck + 12x Facial Coreless Micro-Servos | $1,200 |
@@ -78,33 +83,33 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 
 The structural mass budget and baseline link lengths can be locked to freeze the kinematic tree for the preview controller.
 These values assume a nominal 165 cm overall stature with the lower-body proportions tuned to support the bent-knee, wide-stance Linear Inverted Pendulum Model (LIPM).
-1. Frozen Link Lengths & Kinematic Offsets
+
+## 8. Frozen Link Lengths & Kinematic Offsets
 All dimensions define joint axis-to-axis centerlines:
- * Pelvic Width (Hip Pitch-to-Pitch Centerline): 240\text{ mm} (Wide stance base to facilitate the lateral pendulum sway).
- * Hip Pitch-to-Roll Offset (d_{\text{hip}}): 48\text{ mm} (Orthogonal intersecting offset).
- * Femur Length (L_{\text{thigh}}): 360\text{ mm} (Hip roll pivot to knee harmonic axis).
- * Shank Length (L_{\text{shank}}): 380\text{ mm} (Knee harmonic axis to ankle gimbal pivot center).
- * Ankle Gimbal-to-Sole Offset (h_{\text{sole}}): 65\text{ mm} (Vertical distance from ankle pitch/roll cross-pin to bottom of compliant foot tread).
- * Foot Sole Envelope: 220\text{ mm} total length (75\text{ mm} posterior to ankle center, 145\text{ mm} anterior) \times 110\text{ mm} width.
-2. Bare-Frame Mass & Center of Gravity (CoG) Budget
+ * Pelvic Width (Hip Pitch-to-Pitch Centerline): 240 mm (Wide stance base to facilitate the lateral pendulum sway).
+ * Hip Pitch-to-Roll Offset (d_hip): 48 mm (Orthogonal intersecting offset).
+ * Femur Length (L_thigh): 360 mm (Hip roll pivot to knee harmonic axis).
+ * Shank Length (L_shank): 380 mm (Knee harmonic axis to ankle gimbal pivot center).
+ * Ankle Gimbal-to-Sole Offset (h_sole): 65 mm (Vertical distance from ankle pitch/roll cross-pin to bottom of compliant foot tread).
+ * Foot Sole Envelope: 220 mm total length (75 mm posterior to ankle center, 145 mm anterior) × 110 mm width.
+
+## 9. Bare-Frame Mass & Center of Gravity (CoG) Budget
 The masses represent the fully populated sub-assemblies (skeleton, internal drives, wiring, and structural covers, excluding cast outer silicone):
-| Segment / Assembly | Bare-Frame Mass | Local Center of Gravity (from proximal joint) | Segment Inertia Estimate (I_{xx}, I_{yy}, I_{zz}) |
+| Segment / Assembly | Bare-Frame Mass | Local Center of Gravity (from proximal joint) | Segment Inertia Estimate (I_xx, I_yy, I_zz) |
 |---|---|---|---|
-| Pelvis Core Assembly | 4.20\text{ kg} | Centered 35\text{ mm} below spine pitch base | [0.024, 0.018, 0.028]\,\text{kg}\cdot\text{m}^2 |
-| Femur Assembly (x2) | 3.15\text{ kg} ea. | 145\text{ mm} distally along tube centerline | [0.038, 0.036, 0.007]\,\text{kg}\cdot\text{m}^2 |
-| Shank Assembly (x2) | 2.85\text{ kg} ea. | 130\text{ mm} distally (biased proximal by Bay 2/3 motors) | [0.031, 0.029, 0.005]\,\text{kg}\cdot\text{m}^2 |
-| Foot Plate Assembly (x2) | 0.95\text{ kg} ea. | 18\text{ mm} forward of pitch pin, 25\text{ mm} below pivot | [0.003, 0.006, 0.004]\,\text{kg}\cdot\text{m}^2 |
-| Upper Body Lumped Mass | 17.50\text{ kg} | Torso center (Orin, battery, spine, animatronics) | [0.320, 0.280, 0.190]\,\text{kg}\cdot\text{m}^2 |
-| Total Platform Mass (M) | 35.60\text{ kg} | Nominal standing CoG height: z_c \approx 540\text{ mm} | — |
-3. Frozen LIPM Constants for 10-Step Gait Execution
+| Pelvis Core Assembly | 4.20 kg | Centered 35 mm below spine pitch base | [0.024, 0.018, 0.028] kg·m² |
+| Femur Assembly (x2) | 3.15 kg ea. | 145 mm distally along tube centerline | [0.038, 0.036, 0.007] kg·m² |
+| Shank Assembly (x2) | 2.85 kg ea. | 130 mm distally (biased proximal by Bay 2/3 motors) | [0.031, 0.029, 0.005] kg·m² |
+| Foot Plate Assembly (x2) | 0.95 kg ea. | 18 mm forward of pitch pin, 25 mm below pivot | [0.003, 0.006, 0.004] kg·m² |
+| Upper Body Lumped Mass | 17.50 kg | Torso center (Orin, battery, spine, animatronics) | [0.320, 0.280, 0.190] kg·m² |
+| Total Platform Mass (M) | 35.60 kg | Nominal standing CoG height: z_c ≈ 540 mm | — |
+
+## 10. Frozen LIPM Constants for 10-Step Gait Execution
 With the link parameters set, the fundamental parameters for the 200 Hz preview loop normalize to:
- * Nominal CoM Operating Height (z_c): 0.54\text{ m} (calculated at constant 22^\circ static knee flexion).
- * Pendulum Time Constant:
-   
+ * Nominal CoM Operating Height (z_c): 0.54 m (calculated at constant 22° static knee flexion).
+ * Pendulum Time Constant: TBD — compute from z_c / g once the mass model is locked.
  * Step Cycle Timing:
-   * Step Duration (T_{\text{step}}): 0.65\text{ s} per step (0.45\text{ s} single support, 0.20\text{ s} double support).
-   * Stride Length (S_x): 120\text{ mm} (short, stable shuffle).
-   * Step Width (S_y): 240\text{ mm} constant lateral stance.
-   * Lateral CoM Sway Amplitude: \pm 38\text{ mm} across the pelvic roll axis to keep the ZMP safely within the 110\text{ mm} foot width during single-leg support.
-
-
+   * Step Duration (T_step): 0.65 s per step (0.45 s single support, 0.20 s double support).
+   * Stride Length (S_x): 120 mm (short, stable shuffle).
+   * Step Width (S_y): 240 mm constant lateral stance.
+   * Lateral CoM Sway Amplitude: ±38 mm across the pelvic roll axis to keep the ZMP safely within the 110 mm foot width during single-leg support.
