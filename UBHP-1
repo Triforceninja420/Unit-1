@@ -7,7 +7,7 @@ Status: design brief, not validated, not the public build
 
 1. Master System Overview & Unit-1 Design Philosophy
 The Unit-1 Autonomous Bipedal Humanoid Platform (UBHP-1) integrates dynamic, zero-cloud edge intelligence with a hardened, low-backlash humanoid chassis. Designed specifically to execute stable, characteristic waddling and shuffling bipedal gaits while retaining tactile compliance and realistic expressive animatronics, the platform resolves critical mechanical and electrical failure modes identified during stress testing.
-Key architectural upgrades include zero-power electromagnetic holding brakes at high-stress joints, active dynamic bus clamping, a 200 Hz Zero Moment Point (ZMP) control loop backed by 8-zone ground reaction telemetry, double-shear linkage clevises, and a zoned dual-durometer elastomer skin with integrated internal accordion pleats to eliminate tearing under extreme flexion.
+Key architectural upgrades include zero-power electromagnetic holding brakes at high-stress joints, active dynamic bus clamping, a 200 Hz Zero Moment Point (ZMP) control loop backed by 8-zone ground reaction telemetry, double-shear linkage clevises, a zoned dual-durometer elastomer skin with integrated internal accordion pleats to eliminate tearing under extreme flexion, and a stereo ESP32-CAM eye pair giving gaze-coupled vision.
 
 2. Hardened Full-Body Kinematic Chain
 The Unit-1 lower body decouples sagittal stride from lateral waddle splay across 10 lower-body degrees of freedom (DOF), while retaining full upper-body expressivity:
@@ -19,6 +19,7 @@ The Unit-1 lower body decouples sagittal stride from lateral waddle splay across
 | Knee Joint (2x) | 100:1 Harmonic Drive + BLDC | 35 N·m Cont. / 85 N·m Peak + 24V EM Brake | Integrated harmonic cross-roller output flange | 0x016, 0x017 |
 | Ankle Gimbal (2x 2-DOF) | Shank Pushrod In-Line BLDC | Dual 600 N axial force (Push/Pull) | 7075-T6 double-shear clevises + M6 PTFE heim joints | 0x018, 0x019 |
 | Neck & Animatronics | 3-DOF Neck + 12x Facial Servos | 0.8 to 6 N·m torque class | Sintered bronze pivot bushings | 0x020 (STM32 Node) |
+| Eye Cameras (2x) | ESP32-CAM OV2640 stereo pair in eye sockets | Gaze-coupled stereo vision, ~1.5 m convergence | 3D-printed cradles on neck armature, passive heatsinks | 0x022 (Node -> Host) |
 
 3. Hardened Power Network & Bus Clamping
 Locomotion creates high regenerative back-EMF spikes that threaten digital compute rails. The Unit-1 PDN incorporates active transient suppression:
@@ -59,6 +60,7 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 0x019     Right Ankle Pushrods    Host -> Node  float32 pitch, float32 roll 200 Hz
 0x020     Head / Facial MCU       Host -> Node  uint8 jaw, eye_l, eye_r  50 Hz
 0x021     Diaphragm Stepper       Host -> Node  float32 breathing_bpm    20 Hz
+0x022     Stereo Eye Cameras      Node -> Host  MJPEG frame chunks (L/R) 5-15 Hz
 0x030     Torso Tactile Hub       Node -> Host  uint32 mask, uint16 peak 50 Hz
 0x032     Left Foot 4-FSR Matrix  Node -> Host  uint16 F0, F1, F2, F3    200 Hz
 0x033     Right Foot 4-FSR Matrix Node -> Host  uint16 F0, F1, F2, F3    200 Hz
@@ -74,12 +76,13 @@ CAN ID    Node Assignment         Direction     Payload Format           Frequen
 | **Distributed MCUs** | 3x STM32H723 Core Modules (Head, Torso/Tactile, Lower Limbs) | $320 |
 | **Lower-Body Drive Train** | 4x Planetary Hips (25 N·m) + 2x Hip Roll Harmonics (12 N·m) + 2x Knee Harmonics w/ 24V Brakes (35 N·m) + 4x Ankle Pushrod Drives | $3,000 |
 | **Upper-Body Actuation** | 2x QDD Spine Motors + 3-DOF Neck + 12x Facial Coreless Micro-Servos | $1,200 |
+| **Eye Vision** | 2x ESP32-CAM OV2640 stereo pair + 850 nm IR LED rings + heatsinks + 3D-printed cradles | $60 |
 | **PDN & Transient Clamping** | 6S2P Li-ion 10Ah + Active 27.5V Brake Chopper + Buck Converters | $520 |
 | **Structural Endoskeleton** | CNC 7075/6061 Billet Pelvis/Spars, Carbon Boxes, Double-Shear Clevises | $2,100 |
 | **Dual-Durometer Skin** | SLA Tooling Negatives, Shore 00-30 Pleated Joints, Shore 10A Skin, Scrim | $1,550 |
 | **Sensors & Ground Reaction**| Intel RealSense D435i, 64-Ch Tactile Grid, 8x Foot FSR Sensors, MEMS Mics | $720 |
 | **Thermal & Cabling** | Graphite PGS Spreaders, Dual Blowers, Braided Shielded Bus Harnessing | $300 |
-| **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$11,809** |
+| **Total Engineered Cost** | **Fully Autonomous, Bipedal Unit-1 Architecture** | **$11,869** |
 
 The structural mass budget and baseline link lengths can be locked to freeze the kinematic tree for the preview controller.
 These values assume a nominal 165 cm overall stature with the lower-body proportions tuned to support the bent-knee, wide-stance Linear Inverted Pendulum Model (LIPM).
